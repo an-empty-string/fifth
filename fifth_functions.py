@@ -84,7 +84,7 @@ def stack_tobool(stack):
 ### Stack Operations
 @ffunc("spjoin")
 def spjoin(stack):
-    return [" ".join(stack[::-1])]
+    return [" ".join([str(i) for i in stack[::-1]])]
 
 @ffunc("reverse")
 def reverse_stack(stack):
@@ -93,6 +93,19 @@ def reverse_stack(stack):
 @ffunc("clear")
 def clear_stack(stack):
     return []
+
+@ffunc("dup", "dupl")
+def dupl(stack):
+    stack.append(stack[-1])
+    return stack
+
+### Loops
+@ffunc("while")
+def while_loop(stack):
+    code = stack.pop()
+    while len(stack) == 0 or stack[-1]:
+        stack = exec_with_stack(stack, code)
+    return stack
 
 ### Defining new actions
 @ffunc("define")
