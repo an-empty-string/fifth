@@ -1,5 +1,6 @@
 from fifth_functions import definitions, exec_with_stack
 import sys
+import readline
 
 global stack
 stack = []
@@ -12,5 +13,5 @@ if len(sys.argv) < 2:
     while True:
         exec_one_line(input(">>> "))
 else:
-    code = open(sys.argv[1]).read().split()
+    code = open(sys.argv[1]).read()
     exec_one_line(code)

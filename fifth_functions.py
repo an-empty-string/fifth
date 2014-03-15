@@ -35,6 +35,11 @@ def print_fst(stack):
     print(stack[-1])
     return stack
 
+@ffunc("getln")
+def getln(stack):
+    stack.append(input(stack.pop() + " "))
+    return stack
+
 ### Math
 @ffunc("add", "+", "concat")
 def add(stack):
@@ -54,6 +59,12 @@ def mul(stack):
 @ffunc("div", "/")
 def div(stack):
     stack.append(stack.pop() / stack.pop())
+    return stack
+
+#### Comparisons
+@ffunc("eq", "=")
+def equals_stack(stack):
+    stack.append(stack.pop() == stack.pop())
     return stack
 
 #### Boolean Math
@@ -99,11 +110,18 @@ def dupl(stack):
     stack.append(stack[-1])
     return stack
 
-### Loops
+### Loops and Conditions
 @ffunc("while")
 def while_loop(stack):
     code = stack.pop()
     while len(stack) == 0 or stack[-1]:
+        stack = exec_with_stack(stack, code)
+    return stack
+
+@ffunc("if")
+def if_stack(stack):
+    code = stack.pop()
+    if stack[-1]:
         stack = exec_with_stack(stack, code)
     return stack
 
@@ -126,3 +144,9 @@ def func(stack):
         return exec_with_stack(stack, value)
     definitions[name] = wow
     return stack
+
+### eval
+@ffunc("eval")
+def eval(stack):
+    code = stack.pop()
+    return exec_with_stack(stack, code)
